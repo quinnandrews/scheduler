@@ -1,0 +1,29 @@
+meta {
+  name: Update Location
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8080/example/rest/restricted/administration-api/locations/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1
+}
+
+body:json {
+  {
+    "id": 1,
+    "version": 1,
+    "status": "ACTIVE",
+    "name": "Portland",
+    "state": "OR",
+    "timeZone": "America/Los_Angeles",
+    "latitude": 0,
+    "longitude": 0,
+    "radius": 5
+  }
+}

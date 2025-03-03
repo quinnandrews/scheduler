@@ -1,0 +1,15 @@
+meta {
+  name: Get Location
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/example/rest/restricted/administration-api/locations/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 1
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.github.quinnandrews</groupId>
+	<artifactId>scheduler</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Spring + Docusaurus – JAX-RS</name>
+	<description>
+		Demonstrates the integration of Docusaurus in a Spring Boot
+		Application, so that the static content output from Docusaurus
+		is served by Spring when the Application is running. Provides
+		a useful portal exclusive to the Application that can surface
+		Application documentation and resources (e.g. ADRs, READMEs,
+		API docs, links etc.) through a useful user interface to both
+		developers and non-developers alike. Also demonstrates how to
+		display some content dynamically, such as details about the
+		currently running application (e.g. version, build number,
+		time since build, time since start, environment, description,
+		etc.), which can be useful during the course of development.
+	</description>
+
+	<modules>
+		<module>docs</module>
+		<module>app</module>
+	</modules>
+
+	<properties>
+		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.plugin.validation>VERBOSE</maven.plugin.validation>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+</project>

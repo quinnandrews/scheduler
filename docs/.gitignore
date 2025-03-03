@@ -1,0 +1,28 @@
+# Dependencies
+/node_modules
+
+# Production
+# The build directory may be tracked by version control because the
+# contents are copied by the service module's maven build into
+# the service's static resource directory (where they can be
+# served by the service) and running the build automatically
+# with every maven build would be wasteful, since the contents
+# simply do not change often enough for it to be beneficial.
+# Developers may be expected to run the build manually whenever a
+# documentation change is made.
+/build
+
+# Generated files
+.docusaurus
+.cache-loader
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
