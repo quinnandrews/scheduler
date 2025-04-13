@@ -5,8 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -16,8 +14,7 @@ import java.util.Optional;
 import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 
 @NoRepositoryBean
-public interface CachingJpaRepository<T, ID> extends JpaRepository<T, ID>,
-                                                     JpaSpecificationExecutor<T> {
+public interface CachingJpaRepository<T, I> extends SpecificationJpaRepository<T, I> {
 
     @QueryHints({@QueryHint(name = HINT_CACHEABLE, value = "true")})
     default List<T> findAllWithCaching() {
@@ -55,7 +52,7 @@ public interface CachingJpaRepository<T, ID> extends JpaRepository<T, ID>,
     }
 
     @QueryHints({@QueryHint(name = HINT_CACHEABLE, value = "true")})
-    default Optional<T> findByIdWithCaching(ID id) {
+    default Optional<T> findByIdWithCaching(I id) {
         return findById(id);
     }
 }

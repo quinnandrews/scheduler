@@ -1,13 +1,13 @@
 package io.github.quinnandrews.scheduler.commons.snapshots.core.domain.repositories;
 
+import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.Snapshot;
 import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.SnapshotHistory;
-import org.javers.core.metamodel.object.CdoSnapshot;
 
 import java.util.Optional;
 
-public interface SnapshotRepository<T, ID> {
+public interface SnapshotRepository<T, I> {
 
-    Optional<SnapshotHistory<T, ID>> findSnapshotHistory(Class<T> entityClass, ID entityId);
+    Optional<SnapshotHistory<T, I>> findSnapshotHistory(Class<T> entityClass, I entityId);
 
-    Optional<CdoSnapshot> findSnapshot(Class<T> entityClass, ID entityId, Integer entityVersion);
+    Optional<Snapshot<T, I>> findSnapshot(Class<T> entityClass, I entityId, Integer entityVersion);
 }

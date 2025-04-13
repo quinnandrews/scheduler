@@ -1,7 +1,7 @@
 package io.github.quinnandrews.scheduler.commons.snapshots.core.domain.builders;
 
 import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.Snapshot;
-import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.VersioningEntity;
+import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.VersionedEntity;
 import org.javers.common.string.PrettyValuePrinter;
 import org.javers.core.diff.Change;
 import org.javers.core.metamodel.object.CdoSnapshot;
@@ -64,7 +64,7 @@ public class SnapshotBuilder<T, ID> {
                 .withEntityType(cdoSnapshot.getManagedType().getName())
                 .withEntityId(entityId)
                 .withEntityVersion(
-                        Optional.ofNullable(commitMetaData.getProperties().get(VersioningEntity.VERSION_KEY))
+                        Optional.ofNullable(commitMetaData.getProperties().get(VersionedEntity.VERSION_KEY))
                                 .map(Integer::valueOf)
                                 .orElse(null))
                 .withSnapshotChangeType(cdoSnapshot.getType().name())
