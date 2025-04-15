@@ -1,5 +1,6 @@
 package io.github.quinnandrews.scheduler.commons.core.domain.entities;
 
+import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.AuthorSummary;
 import jakarta.persistence.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

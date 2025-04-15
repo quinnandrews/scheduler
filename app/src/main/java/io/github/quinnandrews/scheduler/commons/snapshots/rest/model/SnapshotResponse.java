@@ -12,18 +12,18 @@ import java.util.Objects;
 public record SnapshotResponse<T, ID>(
 
         @Schema(description = """
-                An ID representing the operation that made the changes. Similar to the \
+                An I representing the operation that made the changes. Similar to the \
                 concept of a transaction, but not identical.""")
         String commitId,
 
         @Schema(description = """
                 The time when the changes took place. In UTC time.""")
-        Instant dateCommittedUtc,
+        Instant dateCommitted,
 
         @Schema(nullable = true,
                 description = """
                 A human-readable identifier for the person who made the changes, if known.""")
-        String userCommitedBy,
+        String authorCommitedBy,
 
         @Schema(description = """
                 The fully qualified name of the Entity Class/Aggregate Root.""")
@@ -36,7 +36,7 @@ public record SnapshotResponse<T, ID>(
 
         @Schema(nullable = true,
                 description = """
-                The ID of the Entity Class/Aggregate Root instance that was changed.""")
+                The I of the Entity Class/Aggregate Root instance that was changed.""")
         ID entityId,
 
         @Schema(nullable = true,
@@ -82,7 +82,7 @@ public record SnapshotResponse<T, ID>(
         List<String> changeLog
 ) {
 
-    public static <T, ID> SnapshotResponse<T, ID> of(final Snapshot<T, ID> snapshot) {
+    public static <T, I> SnapshotResponse<T, I> of(final Snapshot<T, I> snapshot) {
         Objects.requireNonNull(snapshot, "Argument 'snapshot' must not be null.");
         return new SnapshotResponse<>(
                 snapshot.getCommitId(),

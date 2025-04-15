@@ -1,16 +1,20 @@
-package io.github.quinnandrews.scheduler.commons.core.domain.entities;
+package io.github.quinnandrews.scheduler.commons.snapshots.core.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.javers.core.metamodel.annotation.TypeName;
+import org.javers.core.metamodel.annotation.Value;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static io.github.quinnandrews.scheduler.commons.core.domain.constants.JPAEntityConstants.TIMESTAMP_WITH_TIME_ZONE;
 
+@Value
+@TypeName("commons.snapshots.AuthorSummary")
 @Embeddable
 public class AuthorSummary {
 
@@ -19,23 +23,23 @@ public class AuthorSummary {
             columnDefinition = TIMESTAMP_WITH_TIME_ZONE,
             nullable = false,
             updatable = false)
-    private LocalDateTime dateCreated;
+    private Instant dateCreated;
 
     @LastModifiedDate
     @Column(name = "date_last_modified",
             columnDefinition = TIMESTAMP_WITH_TIME_ZONE,
             nullable = false)
-    private LocalDateTime dateLastModified;
+    private Instant dateLastModified;
 
     public AuthorSummary() {
         // no-op
     }
 
-    public LocalDateTime getDateCreated() {
+    public Instant getDateCreated() {
         return dateCreated;
     }
 
-    public LocalDateTime getDateLastModified() {
+    public Instant getDateLastModified() {
         return dateLastModified;
     }
 

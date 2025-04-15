@@ -2,128 +2,125 @@ package io.github.quinnandrews.scheduler.commons.core.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
-import static io.github.quinnandrews.scheduler.commons.core.domain.constants.JPAEntityConstants.TIMESTAMP_WITH_TIME_ZONE;
-import static io.github.quinnandrews.scheduler.commons.core.domain.constants.JPAEntityConstants.VARCHAR_32;
+import static io.github.quinnandrews.scheduler.commons.core.domain.constants.JPAEntityConstants.*;
 
 @MappedSuperclass
-public abstract class EventOutboxEntity<E extends EventOutboxEntity<E, K, T>, K, T> {
+public abstract class EventOutboxEntity<S extends EventOutboxEntity<S, T, E>, T, E> {
 
-    @NotNull
-    @EmbeddedId
-    public K key;
+    @Transient
+    private E instance;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "event_outbox_id_seq_gen")
+    @SequenceGenerator(name = "event_outbox_id_seq_gen",
+            sequenceName = "event_outbox_id_seq",
+            allocationSize = 1)
+    @Column(name = "id",
+            columnDefinition = BIG_SERIAL,
+            nullable = false,
+            insertable = false,
+            updatable = false)
+    private Long id;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "type",
+    @Column(name = "type_code",
             columnDefinition = VARCHAR_32,
-            nullable = false)
-    private T type;
+            nullable = false,
+            updatable = false)
+    private T typeCode;
 
+    @NotNull
     @Column(name = "date_occurred",
             columnDefinition = TIMESTAMP_WITH_TIME_ZONE,
             nullable = false,
             updatable = false)
-    private LocalDateTime dateOccurred;
+    private Instant dateOccurred;
 
-    @Column(name = "date_message_produced",
+    @NotNull
+    @Column(name = "message_produced",
+            columnDefinition = BOOLEAN,
+            nullable = false)
+    private Boolean messageProduced;
+
+    @NotNull
+    @Column(name = "message_attempts",
+            columnDefinition = INT,
+            nullable = false)
+    private Integer messageAttempts;
+
+    @Column(name = "date_last_attempted",
             columnDefinition = TIMESTAMP_WITH_TIME_ZONE,
             insertable = false)
-    private LocalDateTime dateMessageProduced;
+    private Instant dateLastAttempted;
 
     protected EventOutboxEntity() {
-        // no-op
+        dateOccurred = Instant.now();
+        messageProduced = Boolean.FALSE;
+        messageAttempts = 0;
     }
 
     // -------------------------------------------- GETTERS
 
-    public K getKey() {
-        return key;
+    protected E getInstance() {
+        return instance;
     }
 
-    public T getType() {
-        return type;
+    public Long getId() {
+        return id;
     }
 
-    public LocalDateTime getDateOccurred() {
+    public T getTypeCode() {
+        return typeCode;
+    }
+
+    public Instant getDateOccurred() {
         return dateOccurred;
     }
 
-    public LocalDateTime getDateMessageProduced() {
-        return dateMessageProduced;
+    public Boolean getMessageProduced() {
+        return messageProduced;
+    }
+
+    public Integer getMessageAttempts() {
+        return messageAttempts;
+    }
+
+    public Instant getDateLastAttempted() {
+        return dateLastAttempted;
     }
 
     // -------------------------------------------- FLUENT API
 
-    public E withKey(final K key) {
-        this.key = key;
+    public S withInstance(final E instance) {
+        this.instance = instance;
         return self();
     }
 
-    public E withType(final T type) {
-        this.type = type;
+    public S withTypeCode(final T typeCode) {
+        this.typeCode = typeCode;
         return self();
     }
 
     @SuppressWarnings("unchecked")
-    protected E self() {
-        return (E) this;
+    protected S self() {
+        return (S) this;
     }
 
     // -------------------------------------------- BEHAVIOR METHODS
 
-    public E messageAttempted() {
-        // increment field
+    public S messageAttempted() {
+        messageAttempts++;
+        dateLastAttempted = Instant.now();
         return self();
     }
 
-    public E messageProduced() {
-        dateMessageProduced = ZonedDateTime.now(ZoneId.of("UTC"))
-                .toLocalDateTime();
+    public S messageProduced() {
+        messageProduced = Boolean.TRUE;
         return self();
-    }
-
-    // -------------------------------------------- LIFECYCLE METHODS
-
-    @PrePersist
-    public void prePersist() {
-        dateOccurred = ZonedDateTime.now(ZoneId.of("UTC"))
-                .toLocalDateTime();
-    }
-
-    // -------------------------------------------- OBJECT METHODS
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof final EventOutboxEntity<?, ?, ?> that)) return false;
-        return new EqualsBuilder()
-                .append(getKey(), that.getKey())
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(getKey())
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("key", getKey())
-                .append("type", getType())
-                .append("dateOccurred", getDateOccurred())
-                .append("dateMessageProduced", getDateMessageProduced())
-                .toString();
     }
 }

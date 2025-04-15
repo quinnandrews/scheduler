@@ -60,7 +60,7 @@ public class SnapshotHistoryBuilder<T, ID> {
                             final var shadow = shadows.stream()
                                     .filter(s -> s.getCommitId().equals(cdoSnapshot.getCommitId()))
                                     .findFirst();
-                            final var changes = this.changes.groupByCommit().stream()
+                            final var commitChanges = this.changes.groupByCommit().stream()
                                     .filter(c -> c.getCommit().getId().equals(cdoSnapshot.getCommitId()))
                                     .findFirst();
                             return new SnapshotBuilder<T, ID>()
@@ -68,7 +68,7 @@ public class SnapshotHistoryBuilder<T, ID> {
                                     .withEntityId(entityId)
                                     .withCdoSnapshot(cdoSnapshot)
                                     .withShadow(shadow.orElse(null))
-                                    .withChanges(changes.map(ChangesByCommit::get)
+                                    .withChanges(commitChanges.map(ChangesByCommit::get)
                                             .orElse(null))
                                     .build();
                         }).toList());

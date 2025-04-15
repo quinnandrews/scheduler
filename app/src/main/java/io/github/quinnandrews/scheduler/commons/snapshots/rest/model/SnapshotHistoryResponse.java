@@ -24,7 +24,7 @@ public record SnapshotHistoryResponse<T, ID>(
         List<SnapshotResponse<T, ID>> snapshots
 ) {
 
-    public static <T, ID> SnapshotHistoryResponse<T, ID> of(final SnapshotHistory<T, ID> history) {
+    public static <T, I> SnapshotHistoryResponse<T, I> of(final SnapshotHistory<T, I> history) {
         Objects.requireNonNull(history, "Argument 'history' must not be null.");
         return new SnapshotHistoryResponse<>(
                 history.getEntityClass().getName(),
