@@ -20,10 +20,11 @@ import static io.github.quinnandrews.scheduler.modules.administration.schedules.
 import static io.github.quinnandrews.scheduler.modules.administration.schedules.core.domain.constants.TypeConstants.ADMIN_SCHEDULE_LOCATION_TYPE;
 
 @Entity
-@TypeName(ADMIN_SCHEDULE_LOCATION_TYPE)
-@EntityListeners(AuditingEntityListener.class)
-@ReadWriteCacheRegion(region = ADMIN_SCHEDULE_LOCATION_TYPE)
 @Table(name = TABLE)
+@EntityListeners(AuditingEntityListener.class)
+@Cacheable
+@ReadWriteCacheRegion(ADMIN_SCHEDULE_LOCATION_TYPE)
+@TypeName(ADMIN_SCHEDULE_LOCATION_TYPE)
 public class Location implements VersionedEntity {
 
     public static final String TABLE = "location";

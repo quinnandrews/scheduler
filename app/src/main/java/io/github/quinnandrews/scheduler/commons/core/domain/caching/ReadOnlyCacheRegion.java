@@ -15,6 +15,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public @interface ReadOnlyCacheRegion {
 
-    @AliasFor(annotation = Cache.class)
-    String region() default "";
+    @AliasFor(annotation = Cache.class, attribute = "region")
+    String value() default "";
 }

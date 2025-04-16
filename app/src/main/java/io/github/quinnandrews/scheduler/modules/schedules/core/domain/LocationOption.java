@@ -14,7 +14,8 @@ import static io.github.quinnandrews.scheduler.modules.schedules.core.domain.con
 
 @Immutable
 @Entity
-@ReadOnlyCacheRegion(region = SCHEDULE_LOCATION_CACHE_REGION)
+@Cacheable
+@ReadOnlyCacheRegion(SCHEDULE_LOCATION_CACHE_REGION)
 @Table(name = "location")
 public class LocationOption {
 
