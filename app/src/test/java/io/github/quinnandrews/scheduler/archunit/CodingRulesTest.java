@@ -34,14 +34,14 @@ public class CodingRulesTest {
             .because("""
                      Throwing specific Exceptions provides clarity when troubleshooting and \
                      analyzing log files.
-                      """);
+                     """);
 
     @ArchTest
     private final ArchRule no_java_util_logging = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING
             .because("""
                     SLF4J provides string formatting and utilizes what is already provided \
                     by the Spring Framework.
-                     """);
+                    """);
 
     @ArchTest
     private final ArchRule loggers_should_be_private_static_final =
@@ -56,7 +56,7 @@ public class CodingRulesTest {
             .because("""
                     Java's modern Date/Time APIs are more robust and require no additional \
                     dependencies.
-                     """);
+                    """);
 
     @ArchTest
     private final ArchRule no_field_injection = noFields().that()
