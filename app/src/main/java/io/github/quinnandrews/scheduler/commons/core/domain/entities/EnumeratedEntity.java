@@ -14,6 +14,7 @@ import static io.github.quinnandrews.scheduler.commons.core.domain.constants.JPA
 /**
  * Represents...
  */
+@SuppressWarnings("unused")
 @Immutable
 @MappedSuperclass
 public abstract class EnumeratedEntity<C> {
