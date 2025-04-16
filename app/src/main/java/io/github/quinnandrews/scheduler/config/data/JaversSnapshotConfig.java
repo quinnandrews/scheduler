@@ -1,6 +1,6 @@
 package io.github.quinnandrews.scheduler.config.data;
 
-import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.VersioningEntity;
+import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.VersionedEntity;
 import org.javers.spring.auditable.AuthorProvider;
 import org.javers.spring.auditable.CommitPropertiesProvider;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +17,9 @@ public class JaversSnapshotConfig {
         return new CommitPropertiesProvider() {
             @Override
             public Map<String, String> provideForCommittedObject(final Object domainObject) {
-                if (domainObject instanceof VersioningEntity) {
+                if (domainObject instanceof final VersionedEntity entity) {
                     return Map.of(
-                            VersioningEntity.VERSION_KEY, ((VersioningEntity) domainObject).getVersion().toString()
+                            VersionedEntity.VERSION_KEY, entity.getVersion().toString()
                     );
                 }
                 return Collections.emptyMap();

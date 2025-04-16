@@ -1,6 +1,6 @@
 package io.github.quinnandrews.scheduler.commons.snapshots.core.domain;
 
-public interface VersioningEntity {
+public interface VersionedEntity {
 
     String VERSION_KEY = "entity.version";
 

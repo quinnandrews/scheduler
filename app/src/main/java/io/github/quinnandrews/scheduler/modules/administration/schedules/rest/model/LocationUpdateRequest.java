@@ -13,7 +13,7 @@ public record LocationUpdateRequest(
         Integer radius
 ) {
 
-    public Location toLocation(final Integer id) {
+    public Location toLocation(final Long id) {
         return new Location()
                 .withId(id)
                 .withStatus(status)

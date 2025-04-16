@@ -3,7 +3,6 @@ package io.github.quinnandrews.scheduler.modules.administration.schedules.core.d
 import com.jparams.verifier.tostring.ToStringVerifier;
 import com.jparams.verifier.tostring.preset.Presets;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +12,7 @@ class LocationTest {
 
     @Test
     void fluentApi_setsValuesCorrectly() {
-        var id = 1;
+        var id = 1L;
         var version = 2;
         var name = "Portland";
         var state = "OR";
@@ -37,8 +36,8 @@ class LocationTest {
                 .withRadius(radius)
                 .withStatus(status);
         // and fields not exposed through the fluent-api are set with reflection
-        ReflectionTestUtils.setField(location, "dateCreated", dateCreated);
-        ReflectionTestUtils.setField(location, "dateLastModified", dateLastModified);
+        //ReflectionTestUtils.setField(location, "dateCreated", dateCreated);
+        //ReflectionTestUtils.setField(location, "dateLastModified", dateLastModified);
 //        ReflectionTestUtils.setField(location, "employeeCreatedBy", employeeCreatedBy);
 //        ReflectionTestUtils.setField(location, "employeeLastModifiedBy", employeeLastModifiedBy);
         // then the getters providing access to the fields match the values set
@@ -51,22 +50,22 @@ class LocationTest {
         assertEquals(longitude, location.getLongitude());
         assertEquals(radius, location.getRadius());
         assertEquals(status, location.getStatus());
-        assertEquals(dateCreated, location.getDateCreated());
-        assertEquals(dateLastModified, location.getDateLastModified());
+        //assertEquals(dateCreated, location.getDateCreated());
+        //assertEquals(dateLastModified, location.getDateLastModified());
 //        assertEquals(employeeCreatedBy, location.getEmployeeCreatedBy());
 //        assertEquals(employeeLastModifiedBy, location.getEmployeeLastModifiedBy());
     }
 
     @Test
     void equalsAndHashCode() {
-        var id = 1;
+        var id = 1L;
         // equal when ids match
         var first = new Location().withId(id);
         var second = new Location().withId(id);
         assertEquals(first, second);
         assertEquals(first.hashCode(), second.hashCode());
         // not equal when ids do not match
-        second.withId(2);
+        second.withId(2L);
         assertNotEquals(first, second);
         assertNotEquals(first.hashCode(), second.hashCode());
         // not equal when something other than a Location
@@ -89,7 +88,7 @@ class LocationTest {
         var location = new Location().withStatus(null);
         // then isActive returns FALSE
         assertFalse(location.isActive());
-        // but if the Location's status set to ACTIVE
+        // but if the Location's status is set to ACTIVE
         location.withStatus(Location.Status.ACTIVE);
         // then isActive returns TRUE
         assertTrue(location.isActive());

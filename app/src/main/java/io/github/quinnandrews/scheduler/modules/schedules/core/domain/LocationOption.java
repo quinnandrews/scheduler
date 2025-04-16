@@ -1,12 +1,12 @@
 package io.github.quinnandrews.scheduler.modules.schedules.core.domain;
 
+import io.github.quinnandrews.scheduler.commons.core.domain.caching.ReadOnlyCacheRegion;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Immutable;
 
 import static io.github.quinnandrews.scheduler.commons.core.domain.constants.JPAEntityConstants.*;
@@ -14,8 +14,7 @@ import static io.github.quinnandrews.scheduler.modules.schedules.core.domain.con
 
 @Immutable
 @Entity
-@org.hibernate.annotations.Cache(region = SCHEDULE_LOCATION_CACHE_REGION,
-        usage = CacheConcurrencyStrategy.READ_ONLY)
+@ReadOnlyCacheRegion(region = SCHEDULE_LOCATION_CACHE_REGION)
 @Table(name = "location")
 public class LocationOption {
 
@@ -129,7 +128,7 @@ public class LocationOption {
         INACTIVE
     }
 
-    // -------------------------------------------- OBJECT-METHODS
+    // -------------------------------------------- OBJECT METHODS
 
     @Override
     public boolean equals(final Object o) {

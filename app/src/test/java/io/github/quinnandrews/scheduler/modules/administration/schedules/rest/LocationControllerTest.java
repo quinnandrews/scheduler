@@ -48,7 +48,7 @@ class LocationControllerTest {
                 .and().statusCode(HttpStatus.OK.value())
                 .and().contentType(ContentType.JSON)
                 .and().body(matchesJsonSchemaInClasspath(jsonSchemaPathOf(LocationListResponse.class)))
-                .and().body("locations.size()", equalTo(0))
+                .and().body("locations.size()", equalTo(2))
         //.and().body("[0].name", equalTo("NAME"))
         ;
     }

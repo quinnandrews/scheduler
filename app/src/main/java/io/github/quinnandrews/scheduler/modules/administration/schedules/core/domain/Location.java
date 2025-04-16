@@ -1,35 +1,30 @@
 package io.github.quinnandrews.scheduler.modules.administration.schedules.core.domain;
 
-import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.VersioningEntity;
+import io.github.quinnandrews.scheduler.commons.core.domain.caching.ReadWriteCacheRegion;
+import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.AuthorSummary;
 import io.github.quinnandrews.scheduler.commons.core.domain.validation.groups.OnCreate;
 import io.github.quinnandrews.scheduler.commons.core.domain.validation.groups.OnUpdate;
+import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.VersionedEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Range;
 import org.javers.core.metamodel.annotation.TypeName;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 import static io.github.quinnandrews.scheduler.commons.core.domain.constants.JPAEntityConstants.*;
 import static io.github.quinnandrews.scheduler.modules.administration.schedules.core.domain.Location.TABLE;
-import static io.github.quinnandrews.scheduler.modules.administration.schedules.core.domain.constants.CacheRegionConstants.ADMIN_SCHEDULE_LOCATION_CACHE_REGION;
 import static io.github.quinnandrews.scheduler.modules.administration.schedules.core.domain.constants.TypeConstants.ADMIN_SCHEDULE_LOCATION_TYPE;
 
 @Entity
 @TypeName(ADMIN_SCHEDULE_LOCATION_TYPE)
 @EntityListeners(AuditingEntityListener.class)
-@org.hibernate.annotations.Cache(region = ADMIN_SCHEDULE_LOCATION_CACHE_REGION,
-        usage = CacheConcurrencyStrategy.READ_WRITE)
+@ReadWriteCacheRegion(region = ADMIN_SCHEDULE_LOCATION_TYPE)
 @Table(name = TABLE)
-public class Location implements VersioningEntity {
+public class Location implements VersionedEntity {
 
     public static final String TABLE = "location";
     public static final String SEQUENCE = TABLE + ID_SEQUENCE_SUFFIX;
@@ -41,14 +36,14 @@ public class Location implements VersioningEntity {
     @SequenceGenerator(name = SEQUENCE_GENERATOR,
             sequenceName = SEQUENCE,
             allocationSize = 1)
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
     @Column(name = "id",
             columnDefinition = SERIAL,
             nullable = false,
             insertable = false,
             updatable = false)
-    private Integer id;
+    @Null(groups = OnCreate.class)
+    @NotNull(groups = OnUpdate.class)
+    private Long id;
 
     @Version
     @Null(groups = OnCreate.class)
@@ -58,19 +53,6 @@ public class Location implements VersioningEntity {
             columnDefinition = INT,
             nullable = false)
     private Integer version;
-
-    @CreatedDate
-    @Column(name = "date_created",
-            columnDefinition = TIMESTAMP_WITH_TIME_ZONE,
-            nullable = false,
-            updatable = false)
-    private LocalDateTime dateCreated;
-
-    @LastModifiedDate
-    @Column(name = "date_last_modified",
-            columnDefinition = TIMESTAMP_WITH_TIME_ZONE,
-            nullable = false)
-    private LocalDateTime dateLastModified;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -121,26 +103,22 @@ public class Location implements VersioningEntity {
             nullable = false)
     private Integer radius;
 
+    @Embedded
+    private AuthorSummary authorSummary;
+
     public Location() {
         // no-op
     }
 
     // -------------------------------------------- GETTERS
 
-    public Integer getId() {
+    public @Null(groups = OnCreate.class) @NotNull(groups = OnUpdate.class) Long getId() {
         return id;
     }
 
+    @Override
     public Integer getVersion() {
         return version;
-    }
-
-    public LocalDateTime getDateCreated() {
-        return dateCreated;
-    }
-
-    public LocalDateTime getDateLastModified() {
-        return dateLastModified;
     }
 
     public Status getStatus() {
@@ -171,9 +149,13 @@ public class Location implements VersioningEntity {
         return radius;
     }
 
+    public AuthorSummary getAuthorSummary() {
+        return authorSummary;
+    }
+
     // -------------------------------------------- FLUENT-API
 
-    public Location withId(final Integer id) {
+    public Location withId(final @Null(groups = OnCreate.class) @NotNull(groups = OnUpdate.class) Long id) {
         this.id = id;
         return this;
     }
@@ -268,8 +250,6 @@ public class Location implements VersioningEntity {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
                 .append("version", getVersion())
-                .append("dateCreated", getDateCreated())
-                .append("dateLastModified", getDateLastModified())
                 .append("status", getStatus())
                 .append("name", getName())
                 .append("state", getState())
@@ -277,6 +257,7 @@ public class Location implements VersioningEntity {
                 .append("latitude", getLatitude())
                 .append("longitude", getLongitude())
                 .append("radius", getRadius())
+                .append("authorSummary", getAuthorSummary())
                 .toString();
     }
 }

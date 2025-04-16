@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @JaversSpringDataAuditable
 @Repository
-public interface LocationRepository extends CachingJpaRepository<Location, Integer>,
-                                            SnapshotRepository<Location, Integer> {
+public interface LocationRepository extends CachingJpaRepository<Location, Long>,
+                                            SnapshotRepository<Location, Long> {
 }

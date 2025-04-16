@@ -1,9 +1,9 @@
 package io.github.quinnandrews.scheduler.modules.administration.schedules.core;
 
-import io.github.quinnandrews.scheduler.commons.exceptions.NotFoundException;
-import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.SnapshotHistory;
 import io.github.quinnandrews.scheduler.commons.core.domain.validation.groups.OnCreate;
 import io.github.quinnandrews.scheduler.commons.core.domain.validation.groups.OnUpdate;
+import io.github.quinnandrews.scheduler.commons.exceptions.NotFoundException;
+import io.github.quinnandrews.scheduler.commons.snapshots.core.domain.SnapshotHistory;
 import io.github.quinnandrews.scheduler.modules.administration.schedules.core.domain.Location;
 import io.github.quinnandrews.scheduler.modules.administration.schedules.core.domain.Location_;
 import io.github.quinnandrews.scheduler.modules.administration.schedules.core.domain.repositories.LocationRepository;
@@ -36,13 +36,13 @@ public class LocationService {
         return locationRepository.save(existing.merge(location));
     }
 
-    public Location getLocationOrElseThrow(final Integer id) {
+    public Location getLocationOrElseThrow(final Long id) {
         Objects.requireNonNull(id, "Argument 'id' cannot be null.");
         return locationRepository.findByIdWithCaching(id)
                 .orElseThrow(() -> new NotFoundException(Location.class, id));
     }
 
-    public SnapshotHistory<Location, Integer> getLocationHistoryOrElseThrow(final Integer id) {
+    public SnapshotHistory<Location, Long> getLocationHistoryOrElseThrow(final Long id) {
         return locationRepository.findSnapshotHistory(Location.class, id)
                 .orElseThrow(() -> new NotFoundException(
                         "Could not find History of " +  Location.class.getSimpleName() + " with ID[" + id + "]."));

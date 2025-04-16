@@ -54,7 +54,7 @@ public class LocationController {
     @UnauthorizedResponse
     @ForbiddenResponse
     @InternalServerErrorResponse
-    public LocationResponse updateLocation(@PathParam("id") final Integer id,
+    public LocationResponse updateLocation(@PathParam("id") final Long id,
                                            final LocationUpdateRequest request) {
         return LocationResponse.of(locationService.updateLocation(request.toLocation(id)));
     }
@@ -68,7 +68,7 @@ public class LocationController {
     @UnauthorizedResponse
     @ForbiddenResponse
     @InternalServerErrorResponse
-    public LocationResponse getLocation(@PathParam("id") final Integer id) {
+    public LocationResponse getLocation(@PathParam("id") Long id) {
         return LocationResponse.of(locationService.getLocationOrElseThrow(id));
     }
 
@@ -81,7 +81,7 @@ public class LocationController {
     @UnauthorizedResponse
     @ForbiddenResponse
     @InternalServerErrorResponse
-    public SnapshotHistoryResponse<Location, Integer> getLocationHistory(@PathParam("id") final Integer id) {
+    public SnapshotHistoryResponse<Location, Long> getLocationHistory(@PathParam("id") final Long id) {
         return SnapshotHistoryResponse.of(locationService.getLocationHistoryOrElseThrow(id));
     }
 
