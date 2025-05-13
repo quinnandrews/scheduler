@@ -2,6 +2,8 @@ package io.github.quinnandrews.scheduler.modules.administration.schedules.core.d
 
 import com.jparams.verifier.tostring.ToStringVerifier;
 import com.jparams.verifier.tostring.preset.Presets;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -57,25 +59,14 @@ class LocationTest {
     }
 
     @Test
-    void equalsAndHashCode() {
-        var id = 1L;
-        // equal when ids match
-        var first = new Location().withId(id);
-        var second = new Location().withId(id);
-        assertEquals(first, second);
-        assertEquals(first.hashCode(), second.hashCode());
-        // not equal when ids do not match
-        second.withId(2L);
-        assertNotEquals(first, second);
-        assertNotEquals(first.hashCode(), second.hashCode());
-        // not equal when something other than a Location
-        var obj = new Object();
-        assertNotEquals(first, obj);
-        assertNotEquals(first.hashCode(), obj.hashCode());
+    void equalsAndHashCode_verify() {
+        EqualsVerifier.forClass(Location.class)
+                .suppress(Warning.SURROGATE_KEY)
+                .verify();
     }
 
     @Test
-    void toString_hasValidFields() {
+    void toString_verify() {
         ToStringVerifier.forClass(Location.class)
                 .withPreset(Presets.APACHE_TO_STRING_BUILDER_MULTI_LINE_STYLE)
                 .withFailOnExcludedFields(Boolean.TRUE)
