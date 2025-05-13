@@ -72,7 +72,6 @@ public class SnapshotRepositoryImpl<T, ID> implements SnapshotRepository<T, ID> 
     private List<CdoSnapshot> findCdoSnapshots(final Class<T> entityClass,
                                                final ID entityId) {
         return javers.findSnapshots(QueryBuilder.byInstanceId(entityId, entityClass)
-                .withScopeCommitDeep()
                 .withChildValueObjects()
                 .build());
     }
@@ -80,14 +79,13 @@ public class SnapshotRepositoryImpl<T, ID> implements SnapshotRepository<T, ID> 
     private List<Shadow<T>> findShadows(final Class<T> entityClass,
                                         final ID entityId) {
         return javers.findShadows(QueryBuilder.byInstanceId(entityId, entityClass)
-                .withScopeCommitDeep()
+                .withScopeDeepPlus()
                 .build());
     }
 
     private Changes findChanges(final Class<T> entityClass,
                                 final ID entityId) {
         return javers.findChanges(QueryBuilder.byInstanceId(entityId, entityClass)
-                .withScopeCommitDeep()
                 .withChildValueObjects()
                 .build());
     }
@@ -99,7 +97,6 @@ public class SnapshotRepositoryImpl<T, ID> implements SnapshotRepository<T, ID> 
                         .withCommitProperty(
                                 VersionedEntity.VERSION_KEY,
                                 String.valueOf(entityVersion))
-                        .withScopeCommitDeep()
                         .withChildValueObjects()
                         .build())
                 .stream()
@@ -113,7 +110,7 @@ public class SnapshotRepositoryImpl<T, ID> implements SnapshotRepository<T, ID> 
                 .withCommitProperty(
                         VersionedEntity.VERSION_KEY,
                         String.valueOf(entityVersion))
-                .withScopeCommitDeep()
+                .withScopeDeepPlus()
                 .build());
         return shadows.stream()
                 .findFirst();
@@ -126,7 +123,6 @@ public class SnapshotRepositoryImpl<T, ID> implements SnapshotRepository<T, ID> 
                 .withCommitProperty(
                         VersionedEntity.VERSION_KEY,
                         String.valueOf(entityVersion))
-                .withScopeCommitDeep()
                 .withChildValueObjects()
                 .build());
     }
