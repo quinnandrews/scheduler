@@ -104,6 +104,17 @@
             <artifactId>hazelcast-all</artifactId>
             <version>4.2.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.sqids</groupId>
+            <artifactId>sqids</artifactId>
+            <version>0.1.0</version>
+            <!--
+            Encodes/decodes between an Array of Longs and an encoded String.
+            Useful for generating IDs with existing data that need not be
+            exposed through REST APIs, but can later be extracted without
+            having to perform any lookups.
+            -->
+        </dependency>
 
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -148,7 +159,6 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -180,13 +190,43 @@
             -->
         </dependency>
         <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+            <!--
+            Rest Assured provides a robust, lightweight fluent API for
+            testing REST APIs.
+            -->
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+            <!--
+            Augments Rest Assured with the ability to verify that API
+            Endpoints conform to expected JSON Schemas.
+            -->
+        </dependency>
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>4.0</version>
+            <scope>test</scope>
+            <!--
+            Provides a convenient way to test equals and hashCode methods in
+            Entities and elsewhere.
+            -->
+        </dependency>
+        <dependency>
             <groupId>com.jparams</groupId>
             <artifactId>to-string-verifier</artifactId>
             <version>1.4.8</version>
             <scope>test</scope>
             <!--
-            Provides a convenient way to test toString methods in Entities
-            and elsewhere, for inclusion or exclusion of various properties.
+            Provides a convenient way to test toString methods in Entities and
+            elsewhere. Tests for inclusion or exclusion of Class properties.
             Especially useful when a Class contains sensitive information, such
             as PHI, and a test is needed to verify that the toString method
             will not expose protected information when called, as may be done
@@ -199,34 +239,16 @@
             <version>1.4.0</version>
             <scope>test</scope>
             <!--
-            Provides a way to test for alignment with architectural
-            principals and best practices.
-            -->
-        </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>5.4.0</version>
-            <scope>test</scope>
-            <!--
-            <groupId>com.epages</groupId>
-            <artifactId>restdocs-api-spec-restassured</artifactId>
-            <version>0.18.2</version>
-            <scope>test</scope>
-            Imports Rest Assured without its groovy dependency, because it
-            conflicts with a groovy dependency pulled by Spring.
-            Rest Assured provides a robust, lightweight fluent API for
-            testing REST APIs.
-            -->
-        </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>json-schema-validator</artifactId>
-            <version>5.4.0</version>
-            <scope>test</scope>
-            <!--
-            Augments Rest Assured with the ability to verify that API
-            Endpoints conform to expected json schemas.
+            Used to test for alignment with architectural principals and coding
+            best practices. Tests for such things as:
+            - Dependency relationships between Classes and/or Packages
+              (e.g. Services can depend on Repositories, but Repositories
+              cannot depend on Services).
+            - References to Classes or Methods that should be excluded
+              (e.g. Code should contain no references to Date or Calendar,
+              because the new Time API should be used instead).
+            - Naming & signature conventions (e.g. Loggers should be private,
+              static & final, should be named 'logger', and should use Slf4J).
             -->
         </dependency>
     </dependencies>
