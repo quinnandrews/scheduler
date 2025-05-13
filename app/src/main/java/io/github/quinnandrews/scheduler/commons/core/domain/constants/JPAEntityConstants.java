@@ -18,6 +18,8 @@ public class JPAEntityConstants {
     public static final String BIG_INT = "BIGINT";
     public static final String DOUBLE_PRECISION = "DOUBLE PRECISION";
 
+    public static final String UUID = "UUID";
+
     public static final String BOOLEAN = "BOOLEAN";
 
     public static final String TIMESTAMP_WITH_TIME_ZONE = "TIMESTAMP WITH TIME ZONE";
